@@ -1,7 +1,7 @@
-<div class="row col-md-8 col-md-offset-2">
+<div class="row col-md-10 col-md-offset-1">
   <h1><%= @pulsechannel.event %></h1>
 
-<div class="panel panel-default">
+<div>
   <% if @pulsechannel.posts.any? %>
     <div id="posts" class="cards">
       <%= render partial: 'posts/post', collection: @pulsechannel.posts%>
@@ -14,6 +14,7 @@
 
 
   <%= render partial: 'posts/post_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
+  <hr>
 </div>
 
 <script>
