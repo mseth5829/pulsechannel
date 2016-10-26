@@ -1,0 +1,9 @@
+<div class="pulsechannel-form">
+  <%= form_for pulsechannel, remote: true do |f| %>
+    <div class="input-group">
+      <span class="input-group-addon">event:</span>
+      <%= f.text_field :event, class: "form-control"%>
+    </div>
+    <%= f.submit %>
+  <% end %>
+</div>

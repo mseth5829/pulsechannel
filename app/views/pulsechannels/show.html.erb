@@ -1,0 +1,22 @@
+<div class="row col-md-8 col-md-offset-2">
+  <h1><%= @pulsechannel.event %></h1>
+
+<div class="panel panel-default">
+  <% if @pulsechannel.posts.any? %>
+    <div class="panel-body" id="posts">
+      <%= render partial: 'posts/post', collection: @pulsechannel.posts%>
+    </div>
+  <%else%>
+    <div class="panel-body hidden" id="posts">
+    </div>
+  <%end%>
+</div>
+
+
+  <%= render partial: 'posts/post_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
+</div>
+
+<script>
+  var current_room_id = <%= @pulsechannel.id.to_i %>
+  var current_username = '<%= current_user.username %>'
+</script>

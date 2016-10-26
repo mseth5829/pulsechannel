@@ -1,0 +1,12 @@
+<h1>Pulse Channels</h1>
+
+<div class="row col-md-8 col-md-offset-2">
+  <%= render partial: 'pulsechannel_form', locals: {pulsechannel: @pulsechannel} %>
+    <ul id="pulsechannel-index">
+  <% if @pulsechannels.any? %>
+      <%= render @pulsechannels%>
+  <%else %>
+    </ul>
+    <p>Be the first one to make a pulse channel!</p>
+  <% end %>
+</div>

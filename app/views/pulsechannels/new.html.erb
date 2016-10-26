@@ -1,0 +1,17 @@
+<div class="row col-md-8 col-md-offset-2">
+
+  <h1>Create a pulse channel</h1>
+    <div class="well">
+      <div class="pulsechannel-form">
+        <%= form_for @pulsechannel do |f| %>
+          <div class="input-group">
+            <span class="input-group-addon">Event:</span>
+            <%= f.text_field :event, class: "form-control"%>
+          </div>
+          <%= f.submit %>
+        <% end %>
+      </div>
+    </div>
+
+    <%= render partial: 'layouts/flash_errors'%>
+</div>
