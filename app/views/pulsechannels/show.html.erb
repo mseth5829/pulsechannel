@@ -3,7 +3,7 @@
 
 <div class="panel panel-default">
   <% if @pulsechannel.posts.any? %>
-    <div class="panel-body" id="posts">
+    <div id="posts" class="cards">
       <%= render partial: 'posts/post', collection: @pulsechannel.posts%>
     </div>
   <%else%>

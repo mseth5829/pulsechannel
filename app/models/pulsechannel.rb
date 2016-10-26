@@ -4,6 +4,8 @@ class Pulsechannel < ApplicationRecord
   validates :event, presence: true, uniqueness: true, case_sensitive: false
   before_validation :sanitize, :slugify
 
+
+
   def to_param
     self.slug
   end

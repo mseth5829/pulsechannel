@@ -3,5 +3,5 @@
   <%= f.text_area :message, class: "form-control", data: {textarea: "post"}, id: "trythis"%>
 
   <%= f.hidden_field :pulsechannel_id, value: pulsechannel.id %>
-  <%= f.submit "send", class: "btn btn-primary", style: "display: none", data: {send: "post"}%>
+  <%= f.submit "send", class: "btn btn-primary", data: {send: "post"}%>
 <%end%>
