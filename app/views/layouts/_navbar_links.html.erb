@@ -1,13 +1,13 @@
 <ul class="nav navbar-nav">
+  <li>
+    <%= link_to "Pulse channels", pulsechannels_path %>
+  </li>
+
   <% if current_user %>
    <li>
-    <%= link_to "new pulsechannel", new_pulsechannel_path%>
+    <%= link_to "Create new channel", new_pulsechannel_path%>
    </li>
   <% end %>
-
-  <li>
-    <%= link_to "pulsechannel", pulsechannels_path %>
-  </li>
 </ul>
 
 <ul class="nav navbar-nav navbar-right">

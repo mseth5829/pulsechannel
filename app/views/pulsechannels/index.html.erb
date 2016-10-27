@@ -1,12 +1,18 @@
-<h1>Pulse Channels</h1>
+<h1 class="europa mainText">Pulse Channels</h1>
 
 <div class="row col-md-8 col-md-offset-2">
   <%= render partial: 'pulsechannel_form', locals: {pulsechannel: @pulsechannel} %>
-    <ul id="pulsechannel-index">
-  <% if @pulsechannels.any? %>
-      <%= render @pulsechannels%>
+  <br>
+    <% if @pulsechannels.any? %>
+      <ul class="list-group" id="pulsechannel-index">
+        <% @pulsechannels.each do |pulsechannel| %>
+            <li class="list-group-item">
+              <span class="tagPulse">Posts: <%= @posts.where(:pulsechannel => pulsechannel.id).length %></span>
+              <td><%= link_to pulsechannel.event, pulsechannel %></td>
+            </li>
+        <% end %>
+      </ul>
   <%else %>
-    </ul>
     <p>Be the first one to make a pulse channel!</p>
   <% end %>
 </div>

@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function () {
-  connectToChat()
+  connectToChannel()
 })
 
 var cardColors =
@@ -9,18 +9,33 @@ var cardColors =
   "rgb(99, 82, 171)",
   "rgb(234, 212, 70)",
   "rgb(59, 131, 149)",
-  "rgb(216, 89, 133)"
+  "rgb(216, 89, 133)",
+  "rgb(10, 104, 194)",
+  "rgb(92, 204, 101)",
+  "rgb(123, 10, 194)",
+  "rgb(216, 89, 133)",
+  "rgb(194, 152, 167)",
+  "rgb(96, 97, 194)",
+  "rgb(50, 35, 174)",
+  "rgb(242, 254, 164)",
+  "rgb(50, 35, 174)",
+  "rgb(237, 115, 161)",
+  "rgb(176, 244, 152)"
 ]
 
-function connectToChat () {
-  if (typeof current_room_id !== 'undefined') {
+var previous_room_id
+
+function connectToChannel () {
+  if (typeof current_room_id !== 'undefined' && typeof App.posts == 'undefined' ||
+      typeof current_room_id !== 'undefined' && current_room_id !== previous_room_id){
+    previous_room_id = current_room_id
     App.posts = App.cable.subscriptions.create({ channel: 'PostsChannel', room: current_room_id }, {
       received: function (data) {
         console.log('ActionCable posts data recieved on client:', data)
         var randomPicker = Math.floor(Math.floor(Math.random() * (cardColors.length)))
         $('#posts').removeClass('hidden')
-        console.log("POST JS IS THE CULPRIT")
-        $('#posts').append('<div class="card" style="background-color:'+cardColors[randomPicker]+'"> <p> <b>' + data.user + ': </b>' + data.message + '</p> </div>')
+        $('#posts').append('<div class="card" style="background-color:'+cardColors[randomPicker]+'"> <p> <b>' + data.user + ': </b>' + data.message + '</p> <hr id="timeBorder"> <p id="postTime">'+ data.created_at + '</p></div>')
+
         var grid = new Minigrid({
           container: '.cards',
           item: '.card',
@@ -46,6 +61,6 @@ function connectToChat () {
         console.log('rejected')
       }
     })
-    console.log('ActionCable subcription to posts created on client')
+    console.log('ActionCable subscription to posts created on client')
   }
 }

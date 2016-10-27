@@ -1,6 +1,4 @@
-<div class="jumbotron">
-  <h1>Pulse</h1>
-  <%if current_user%>
-    <p>Hello, <%= current_user.username%></p>
-  <%end%>
-</div>
+<h1 id="mainHeader" class="mainText">Pulse</h1>
+<%if current_user%>
+  <p class="mainText">Welcome back, <%= current_user.username%></p>
+<%end%>

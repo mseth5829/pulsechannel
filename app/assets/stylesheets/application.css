@@ -14,6 +14,40 @@
  *= require_self
  */
 
+/*Welcome page*/
+#mainHeader{
+  font-family: "Europa";
+  font-size: 120px
+}
+
+.mainText {
+  text-align: center;
+}
+
+.europa{
+  font-family: "Europa";
+}
+
+.navBarHead {
+  font-size: 25px !important;
+}
+
+/*Pulse channels index page*/
+.tagPulse {
+  display: inline-block;
+  padding: .5em .5em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  background-color: lightblue;
+  float: right;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+}
+
+/*Individual channel page*/
 .card {
   width: 160px;
   padding: 20px 20px;
@@ -30,4 +64,22 @@
   max-width: 1040px;
   margin: 0 auto;
   text-align: center;
+}
+
+#channelHeader {
+  text-align: center;
+  font-family: "Garamond";
+  font-weight: bold;
+  font-size: 6em;
+}
+
+#postTime {
+  font-size: 0.85em;
+  font-style: italic;
+  margin-bottom: -5px;
+  margin-top: -17px;
+}
+
+#timeBorder {
+  border-color: #999;
 }

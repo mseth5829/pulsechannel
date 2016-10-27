@@ -1,5 +1,5 @@
 <div class="row col-md-10 col-md-offset-1">
-  <h1><%= @pulsechannel.event %></h1>
+  <h1 id="channelHeader"><%= @pulsechannel.event %></h1>
 
 <div>
   <% if @pulsechannel.posts.any? %>
@@ -12,7 +12,7 @@
   <%end%>
 </div>
 
-
+  <br>
   <%= render partial: 'posts/post_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
   <hr>
 </div>

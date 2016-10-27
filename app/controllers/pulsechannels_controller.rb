@@ -3,6 +3,7 @@ class PulsechannelsController < ApplicationController
   def index
     @pulsechannel = Pulsechannel.new
     @pulsechannels = Pulsechannel.all
+    @posts = Post.all
   end
 
   def new
