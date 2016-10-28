@@ -22,7 +22,6 @@ function submitNewPost () {
     if (event.keyCode == 13) {
       console.log("Keydown to submit post, posts: "+App.posts)
       // can send post to actioncable, as well as triggering from the model creation
-      App.posts.send({ user: current_username, post: $('[data-textarea="post"]').val() })
       $('[data-send="post"]').click()
       $('[data-textarea="post"]').val(' ')
       return false
