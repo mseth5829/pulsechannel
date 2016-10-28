@@ -83,3 +83,7 @@
 #timeBorder {
   border-color: #999;
 }
+
+.uploadedImage {
+  width: 110px;
+}

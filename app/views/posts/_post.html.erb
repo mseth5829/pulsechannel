@@ -2,6 +2,7 @@
   <p><strong><%=post.user.username%>:</strong><br>
     <%=post.message%>
   </p>
+  <%= image_tag(post.image.url, class: "uploadedImage") %>
   <hr id="timeBorder">
   <p id="postTime"><%=post.created_at.to_formatted_s(:short)%></p>
 </div>

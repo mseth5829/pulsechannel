@@ -29,6 +29,11 @@ gem 'redis', '~> 3.0'
 gem "carrierwave"
 gem "mini_magick"
 
+gem 'cloudinary'
+
+gem 'rails_12factor', group: :production
+
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
