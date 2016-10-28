@@ -37,7 +37,7 @@ Rails.application.configure do
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
   config.action_cable.url = 'wss://pulsechannel.herokuapp.com/cable'
-  config.action_cable.allowed_request_origins = [ 'https://pulsechannel.herokuapp.com', /http:\/\/pulsechannel.herokuapp.*/ ]
+  config.action_cable.allowed_request_origins = [ 'https://pulsechannel.herokuapp.com','https://pulsechannel.herokuapp.com']
 
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
