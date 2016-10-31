@@ -32,6 +32,12 @@
   font-size: 25px !important;
 }
 
+#map {
+  width: 100%;
+  height: 400px;
+  background-color: grey;
+}
+
 /*Pulse channels index page*/
 .tagPulse {
   display: inline-block;
@@ -49,9 +55,10 @@
 
 /*Individual channel page*/
 .card {
-  width: 160px;
+  width: 200px;
   padding: 20px 20px;
-  border-radius: 2vw;
+  border-radius: 1vw;
+  box-shadow: 0.7px 0.5px lightgrey;
   background: radial-gradient(circle at bottom,#fff,hsla(0,0%,100%,0))
 }
 

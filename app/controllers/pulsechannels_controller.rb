@@ -4,6 +4,7 @@ class PulsechannelsController < ApplicationController
     @pulsechannel = Pulsechannel.new
     @pulsechannels = Pulsechannel.all
     @posts = Post.all
+    gon.posts = Post.all
   end
 
   def new

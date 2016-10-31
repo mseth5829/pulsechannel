@@ -33,6 +33,8 @@ gem 'cloudinary'
 
 gem 'rails_12factor', group: :production
 
+gem 'gon'
+
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

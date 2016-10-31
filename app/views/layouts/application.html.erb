@@ -4,6 +4,7 @@
     <title>Pulse</title>
     <%= csrf_meta_tags %>
 
+    <%= include_gon(:init => true) %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= favicon_link_tag 'favicon.ico' %>
@@ -19,5 +20,7 @@
 
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    <script src="https://unpkg.com/minigrid@3.0.6/dist/minigrid.min.js"></script>
+   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlCjMuPcmT7RHsQfDD4mAxKxEg2vjZ5mg&libraries=places&callback=initMap"></script>
+   <script src="geolocation.js"></script>
   </body>
 </html>
