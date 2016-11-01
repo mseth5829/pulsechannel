@@ -34,19 +34,23 @@ class PulsechannelsController < ApplicationController
   end
 
   def update
+    puts "  THIS IS PARAMS" + params[:locationLongitude].to_s
     pulsechannel = Pulsechannel.find_by(slug: params[:slug])
     pulsechannel.update(channel_params)
     redirect_to pulsechannel
   end
 
   def show
+    gon.inChannel = "true"
     @pulsechannel = Pulsechannel.find_by(slug: params[:slug])
+    gon.current_slug = @pulsechannel.slug
+    gon.current_location_coordinates=[@pulsechannel.locationLatitude,@pulsechannel.locationLongitude]
     @post = Post.new
   end
 
   private
 
     def channel_params
-      params.require(:pulsechannel).permit(:event)
+      params.require(:pulsechannel).permit(:event, :detail, :locationLatitude, :locationLongitude)
     end
 end

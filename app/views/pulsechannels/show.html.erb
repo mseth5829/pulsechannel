@@ -1,5 +1,27 @@
-<div class="row col-md-10 col-md-offset-1">
-  <h1 id="channelHeader"><%= @pulsechannel.event %></h1>
+<h1 id="channelHeader"><%= @pulsechannel.event %></h1>
+<a class="waves-effect waves-light btn center-align" id="editchannel">Edit channel</a>
+<div class="fixed-action-btn horizontal">
+  <a class="btn-floating btn-large red" id="linktobottom">
+    <i class="large material-icons">system_update_alt</i>
+  </a>
+</div>
+<div id="add-location-dropdown" style="display:none">
+  <div class="row col-md-4">
+    <%= form_for :pulsechannel, url: pulsechannel_path(@pulsechannel), method: :patch do |f| %>
+      <p>Name:</p>
+      <%= f.text_field :event, class: "form-control"%>
+      <p>Details:</p>
+      <%= f.text_field :detail, class: "form-control"%>
+      <p>Add location (optional):</p>
+      <input type="text" id="pac-input" class="form-control">
+      <button id="addLocation">Add location</button>
+    <% end %>
+  </div>
+  <div class="row col-md-8 col-md-offset-5" id="channel_map">
+    <div id="map"></div>
+  </div>
+</div>
+
 
 <div>
   <% if @pulsechannel.posts.any? %>
@@ -12,12 +34,12 @@
   <%end%>
 </div>
 
-  <br>
-  <%= render partial: 'posts/post_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
-  <hr>
-</div>
+<br>
+<%= render partial: 'posts/post_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
+<hr>
 
 <script>
   var current_room_id = <%= @pulsechannel.id.to_i %>
   var current_username = '<%= current_user.username %>'
+  gon.inChannel = "true"
 </script>

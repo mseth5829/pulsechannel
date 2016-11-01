@@ -15,9 +15,9 @@ function connectToChannel () {
         $('#posts').removeClass('hidden')
         console.log(data.imageUrl)
         if(data.imageUrl == null ){
-          $('#posts').append('<div class="card" style="background-color:'+cardColors[randomPicker]+'"> <p> <b>' + data.user + ': </b>' + data.message + '</p><hr id="timeBorder"> <p id="postTime">'+ data.created_at + '</p></div>')
+          $('#posts').append('<div class="card card-panel waves-effect '+cardColors[randomPicker]+'"> <p> <b>' + data.user + ': </b>' + data.message + '</p><hr id="timeBorder"> <p id="postTime">'+ data.created_at + '</p></div>')
         }else {
-          $('#posts').append('<div class="card" style="background-color:'+cardColors[randomPicker]+'"> <p> <b>' + data.user + ': </b>' + data.message + '</p> <%= image_tag('+data.image.url+', class: "uploadedImage") %><hr id="timeBorder"> <p id="postTime">'+ data.created_at + '</p></div>')
+          $('#posts').append('<div class="card card-panel '+cardColors[randomPicker]+'"> <p> <b>' + data.user + ': </b>' + data.message + '</p> <%= image_tag('+data.image.url+', class: "uploadedImage") %><hr id="timeBorder"> <p id="postTime">'+ data.created_at + '</p></div>')
         }
         var grid = new Minigrid({
           container: '.cards',

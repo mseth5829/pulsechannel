@@ -1,8 +1,11 @@
 $(document).on('turbolinks:load', function () {
-  console.log("Turbolinks load on keydown pg: "+App.posts)
+  console.log("turbolinks loaded on pulsechannel page")
+
   refresh = App.posts
   colorCards()
   submitNewPost()
+  scrolltobottom()
+  showEditForm()
 
   var grid = new Minigrid({
     container: '.cards',
@@ -32,9 +35,33 @@ function submitNewPost () {
 
 //Randomize card colors
 function colorCards(){
-  var cards = document.getElementsByClassName('card')
+  var cards = document.getElementsByClassName('card-panel')
   for(i=0;i<cards.length;i++){
     var randomPicker = Math.floor(Math.floor(Math.random() * (cardColors.length)))
-    cards[i].style.backgroundColor = cardColors[randomPicker]
+    cards[i].className += " " +cardColors[randomPicker]
   }
+}
+
+//Scroll to page bottom to add posts
+function scrolltobottom(){
+  $('#linktobottom').click(function () {
+    console.log("MEANT TO SCROLL")
+      $('html, body').animate({
+          scrollTop: $(document).height()
+      }, 'slow');
+      return false;
+  });
+}
+
+var loco = "hidden"
+function showEditForm(){
+  $('#editchannel').click(function(){
+    if(loco == "hidden"){
+      $('#add-location-dropdown').slideDown( "slow");
+      loco= "not hidden"
+    }else {
+      $('#add-location-dropdown').slideUp( "slow");
+      loco= "hidden"
+    }
+  })
 }

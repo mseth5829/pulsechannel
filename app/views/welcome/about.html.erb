@@ -2,5 +2,5 @@
 <%if current_user%>
   <p class="mainText">Welcome back, <%= current_user.username%></p>
 <%end%>
-<h3>Maps Demo</h3>
+<%= render partial: 'pulsechannel_form', locals: {pulsechannel: @pulsechannel} %>
 <div id="map"></div>

@@ -38,6 +38,7 @@
   background-color: grey;
 }
 
+
 /*Pulse channels index page*/
 .tagPulse {
   display: inline-block;
@@ -55,15 +56,9 @@
 
 /*Individual channel page*/
 .card {
-  width: 200px;
-  padding: 20px 20px;
+  width: 200px !important;
+  display: block !important;
   border-radius: 1vw;
-  box-shadow: 0.7px 0.5px lightgrey;
-  background: radial-gradient(circle at bottom,#fff,hsla(0,0%,100%,0))
-}
-
-.card {
-  background-color: rgb(105, 170, 182) ;
 }
 
 .cards {
@@ -93,4 +88,34 @@
 
 .uploadedImage {
   width: 110px;
+}
+
+#add-location-dropdown {
+  margin-bottom: 450px;
+  margin-top: 50px;
+}
+
+#channel_map {
+  float: right;
+}
+
+#editchannel {
+  margin: 0 auto;
+  display: block;
+  width: 40%;
+}
+
+@media screen and (max-width: 980px) {
+  #channel_map {
+    float: none;
+  }
+  #add-location-dropdown {
+    margin-bottom: 0px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #editchannel {
+    width: 100%
+  }
 }
