@@ -1,6 +1,5 @@
-
 $(document).ready(function(){
-  console.log("click functionality loaded")
+  $('select').material_select();
   $('#create-channel-form').click(function(){
     $('#create-channel-dropdown').slideDown( "slow");
     $('#add-location-dropdown').slideDown( "slow");

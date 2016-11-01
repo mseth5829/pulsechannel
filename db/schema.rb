@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031024430) do
+ActiveRecord::Schema.define(version: 20161101102208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admrights", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "pulsechannel_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["pulsechannel_id"], name: "index_admrights_on_pulsechannel_id", using: :btree
+    t.index ["user_id"], name: "index_admrights_on_user_id", using: :btree
+  end
 
   create_table "posts", force: :cascade do |t|
     t.string   "message"
@@ -34,6 +43,7 @@ ActiveRecord::Schema.define(version: 20161031024430) do
     t.decimal  "locationLongitude"
     t.decimal  "locationLatitude"
     t.string   "detail"
+    t.string   "channeltype"
   end
 
   create_table "users", force: :cascade do |t|

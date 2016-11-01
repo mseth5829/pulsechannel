@@ -20,10 +20,17 @@ class PulsechannelsController < ApplicationController
 
   def create
     @pulsechannel = Pulsechannel.new(channel_params)
+
     if @pulsechannel.save
       respond_to do |format|
         format.html { redirect_to @pulsechannel }
         format.js
+        puts "pulsechannelid is:"+@pulsechannel.id.to_s
+        puts "userid is:"+@current_user.id.to_s
+        @admright = Admright.new
+        @admright.pulsechannel_id = @pulsechannel.id
+        @admright.user_id = @current_user.id
+        @admright.save
       end
     else
       respond_to do |format|
@@ -34,7 +41,6 @@ class PulsechannelsController < ApplicationController
   end
 
   def update
-    puts "  THIS IS PARAMS" + params[:locationLongitude].to_s
     pulsechannel = Pulsechannel.find_by(slug: params[:slug])
     pulsechannel.update(channel_params)
     redirect_to pulsechannel
@@ -42,15 +48,22 @@ class PulsechannelsController < ApplicationController
 
   def show
     gon.inChannel = "true"
+    gon.allUsers = User.all
     @pulsechannel = Pulsechannel.find_by(slug: params[:slug])
+    @adm_channels = Admright.find_by(pulsechannel_id: @pulsechannel.id)
     gon.current_slug = @pulsechannel.slug
     gon.current_location_coordinates=[@pulsechannel.locationLatitude,@pulsechannel.locationLongitude]
     @post = Post.new
+    @currentAdm = @pulsechannel.users
+    @users = User.all
+    @admright = Admright.new
+    @adm_pulsechannel_id = @pulsechannel.id
   end
+
 
   private
 
     def channel_params
-      params.require(:pulsechannel).permit(:event, :detail, :locationLatitude, :locationLongitude)
+      params.require(:pulsechannel).permit(:event, :detail, :channeltype, :locationLatitude, :locationLongitude)
     end
 end

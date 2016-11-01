@@ -6,6 +6,8 @@ $(document).on('turbolinks:load', function () {
   submitNewPost()
   scrolltobottom()
   showEditForm()
+  showAdmForm()
+  generateSearch()
 
   var grid = new Minigrid({
     container: '.cards',
@@ -56,12 +58,55 @@ function scrolltobottom(){
 var loco = "hidden"
 function showEditForm(){
   $('#editchannel').click(function(){
+    console.log("WOkring butot")
     if(loco == "hidden"){
-      $('#add-location-dropdown').slideDown( "slow");
+      $('#pulsechannel-edit').slideDown( "slow");
+      $('#current-channel').slideUp();
+      $('#adm-edit').slideUp( "slow");
+
       loco= "not hidden"
     }else {
-      $('#add-location-dropdown').slideUp( "slow");
+      $('#pulsechannel-edit').slideUp( "slow");
+      $('#current-channel').slideDown( "slow");
       loco= "hidden"
     }
   })
 }
+
+var adm = "hidden"
+function showAdmForm(){
+  $('#editadm').click(function(){
+    if(adm == "hidden"){
+      $('#adm-edit').slideDown( "slow");
+      $('#current-channel').slideUp();
+      $('#pulsechannel-edit').slideUp( "slow");
+
+      adm= "not hidden"
+    }else {
+      $('#adm-edit').slideUp( "slow");
+      $('#current-channel').slideDown( "slow");
+      adm= "hidden"
+    }
+  })
+}
+
+//Generate search for all users
+function generateSearch() {
+  $(".searchUsers").select2();
+}
+
+//Make post request for new adm users
+$(document).ready(function() {
+  $("#add_adm").click(function(){
+    var newAdm = $('.searchUsers').val()
+    $.ajax({
+     type: "POST",
+     url: "/admrights",
+     data: {newAdm: newAdm, current_slug: gon.current_slug},
+     error: function(e) {
+        console.log(e);
+      }
+    })
+    $("#addingAdm").append("<p>"+newAdm+"</p>")
+ })
+})

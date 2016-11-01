@@ -1,0 +1,20 @@
+<p><strong>Current administrators:</strong></p>
+  <% @currentAdm.each do |user| %>
+    <%= user.username %><br>
+  <% end %>
+  <div id="addingAdm"></div>
+<hr>
+
+  <p><strong>Add an administrator:</strong><p>
+  <select class="searchUsers">
+    <% @users.each do |user| %>
+      <option value="<%= user.username %>"><%= user.username %></option>
+    <% end %>
+  </select>
+  <button id="add_adm">Add</button>
+
+
+
+<script>
+
+</script>

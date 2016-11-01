@@ -1,3 +1,6 @@
+$(document).on('turbolinks:load', function () {
+
+var current_event_address
 // Map functionality
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -7,8 +10,8 @@ function initMap() {
 
   map.setOptions({styles: styles['night']});
 
-  if ("true" == gon.inChannel){
 
+  if ("true" == gon.inChannel){
     //Create marker for current location for event if it exists
     var eventPos = {
       lat: parseFloat(gon.current_location_coordinates[0]),
@@ -27,10 +30,10 @@ function initMap() {
     var eventinfoWindow = new google.maps.InfoWindow()
 
     google.maps.event.addListener(eventMarker, 'click', (function() {
-      console.log("IT'S WORKING")
       eventgeocoder.geocode({'location': eventMarker.position}, function(results) {
           var area = results[1].address_components[0].long_name
           var address= results[0].formatted_address
+          current_event_address = address
           eventinfoWindow.setContent('<div><strong>' + eventMarker.title + '</strong><br>' +
             address + '</div>');
           eventinfoWindow.open(map, eventMarker)
@@ -107,10 +110,16 @@ function initMap() {
       map.setCenter(pos);
       map.setZoom(12)
 
-      var markers = [
-              ['East Coast Park', 1.3007842,103.9121866],
-              ['Marina Bay Sands', 1.283732,103.8592637]
-      ];
+      var markers = [];
+      var channels = gon.channels
+
+      if (undefined == gon.inChannel) {
+        for(i=0;i<channels.length;i++){
+          var locDetails = [channels[i].event, channels[i].locationLatitude,channels[i].locationLongitude]
+          markers.push(locDetails)
+          console.log(markers)
+        }
+      }
 
       // Display multiple markers on a map
       var infoWindow = new google.maps.InfoWindow(), marker, i;
@@ -144,7 +153,8 @@ function initMap() {
           marker = new google.maps.Marker({
               position: position,
               map: map,
-              title: markers[i][0]
+              title: markers[i][0],
+              icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
           });
           google.maps.event.addListener(marker, 'click', (function(marker) {
             return function() {
@@ -177,16 +187,29 @@ var locationArray = [newLocLatitude, newLocLongitude];
 
 $(document).ready(function() {
   $("#addLocation").click(function(){
-    console.log("click for loc is working")
-  $.ajax({
-   type: "PUT",
-   url: "/pulsechannels/"+gon.current_slug,
-   data: { pulsechannel: {locationLongitude: newLocLongitude, locationLatitude: newLocLatitude} },
-   error: function(e) {
-      console.log(e);
-    }
-  })
- });
+    $.ajax({
+     type: "PUT",
+     url: "/pulsechannels/"+gon.current_slug,
+     data: { pulsechannel: {locationLongitude: newLocLongitude, locationLatitude: newLocLatitude} },
+     error: function(e) {
+        console.log(e);
+      }
+    })
+ })
+
+ $('#pac-input').keydown(function (event) {
+   if (event.keyCode == 13) {
+     $.ajax({
+      type: "PUT",
+      url: "/pulsechannels/"+gon.current_slug,
+      data: { pulsechannel: {locationLongitude: newLocLongitude, locationLatitude: newLocLatitude} },
+      error: function(e) {
+         console.log(e);
+       }
+     })
+   }
+ })
+
 })
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -283,3 +306,6 @@ var styles = {
 $('#editchannel').click(function(){
  initMap()
 });
+
+
+})

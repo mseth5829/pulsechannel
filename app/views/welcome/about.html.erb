@@ -2,7 +2,7 @@
 <%if current_user%>
   <p class="mainText">Welcome back, <%= current_user.username%></p>
 <%end%>
-<%= render partial: 'pulsechannel_form', locals: {pulsechannel: @pulsechannel} %>
+<%= render partial: 'pulsechannel_form', locals: {pulsechannel: @pulsechannel, admright: @admright} %>
 <div id="map"></div>
 
 <script>

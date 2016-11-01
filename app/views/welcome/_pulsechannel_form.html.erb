@@ -7,8 +7,11 @@
     <br>
   <div id="create-channel-dropdown" style="display:none">
       <p>Details:</p>
-      <%= f.text_field :detail, class: "form-control"%>
+      <%= f.text_area :detail, class: "form-control"%>
+      <p>Channel type:</p>
+      <%= f.select :channeltype, [['Public','public'],['Private','private']] %>
     <%= f.submit %>
   </div>
   <% end %>
+
 </div>

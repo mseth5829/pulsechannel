@@ -1,0 +1,2 @@
+module AdmrightsHelper
+end

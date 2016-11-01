@@ -90,7 +90,7 @@
   width: 110px;
 }
 
-#add-location-dropdown {
+#pulsechannel-info {
   margin-bottom: 450px;
   margin-top: 50px;
 }
@@ -100,16 +100,23 @@
 }
 
 #editchannel {
-  margin: 0 auto;
   display: block;
-  width: 40%;
+}
+
+.select2-container {
+  width: 100% !important
+}
+
+#oopsprivate {
+  width: 60% !important;
+  margin:0 auto;
 }
 
 @media screen and (max-width: 980px) {
   #channel_map {
     float: none;
   }
-  #add-location-dropdown {
+  #pulsechannel-info {
     margin-bottom: 0px;
   }
 }

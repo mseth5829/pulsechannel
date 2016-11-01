@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  get 'admrights/create'
+
+  get 'admrights/new'
+
+  get 'admrights/edit'
+
+  get 'admrights/show'
+
+  get 'admrights/update'
+
+  get 'admrights/destroy'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root "welcome#about"
@@ -13,7 +25,7 @@ Rails.application.routes.draw do
   get 'users/:id', to: "users#show", as: "profile"
 
   resources :pulsechannels, param: :slug
-  resources :posts
+  resources :posts, :admrights
 
   # we need to mount action cable
   mount ActionCable.server => '/cable'

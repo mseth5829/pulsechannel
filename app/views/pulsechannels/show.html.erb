@@ -1,43 +1,99 @@
-<h1 id="channelHeader"><%= @pulsechannel.event %></h1>
-<a class="waves-effect waves-light btn center-align" id="editchannel">Edit channel</a>
-<div class="fixed-action-btn horizontal">
-  <a class="btn-floating btn-large red" id="linktobottom">
-    <i class="large material-icons">system_update_alt</i>
-  </a>
-</div>
-<div id="add-location-dropdown" style="display:none">
-  <div class="row col-md-4">
-    <%= form_for :pulsechannel, url: pulsechannel_path(@pulsechannel), method: :patch do |f| %>
-      <p>Name:</p>
-      <%= f.text_field :event, class: "form-control"%>
-      <p>Details:</p>
-      <%= f.text_field :detail, class: "form-control"%>
-      <p>Add location (optional):</p>
-      <input type="text" id="pac-input" class="form-control">
-      <button id="addLocation">Add location</button>
-    <% end %>
+<% if @pulsechannel.channeltype == "private" && @adm_channels.user_id == @current_user.id  %>
+
+  <h1 id="channelHeader"><%= @pulsechannel.event %></h1>
+  <div class="fixed-action-btn horizontal">
+    <a class="btn-floating btn-large red" id="linktobottom">
+      <i class="large material-icons">system_update_alt</i>
+    </a>
   </div>
-  <div class="row col-md-8 col-md-offset-5" id="channel_map">
-    <div id="map"></div>
+  <div id="pulsechannel-info">
+    <div class="row col-md-4">
+      <% if @adm_channels.user_id == @current_user.id  %>
+      <a class="waves-effect waves-light btn" id="editchannel">Edit channel</a>
+      <a class="waves-effect waves-light btn" id="editadm">Adm rights</a>
+      <% end %>
+      <div id="pulsechannel-edit" style="display:none">
+        <%= render partial: 'pulsechannel_edit_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
+      </div>
+      <div id="current-channel">
+        <h3>About</h3>
+        <p><%= @pulsechannel.detail%></p>
+      </div>
+      <div id="adm-edit" style="display:none">
+        <%= render partial: 'adm_edit_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
+      </div>
+    </div>
+    <div class="row col-md-8 col-md-offset-5" id="channel_map">
+      <div id="map"></div>
+    </div>
   </div>
-</div>
+  <div>
+    <% if @pulsechannel.posts.any? %>
+      <div id="posts" class="cards">
+        <%= render partial: 'posts/post', collection: @pulsechannel.posts%>
+      </div>
+    <%else%>
+      <div class="panel-body hidden" id="posts">
+      </div>
+    <%end%>
+  </div>
 
+  <br>
+  <%= render partial: 'posts/post_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
+  <hr>
 
-<div>
-  <% if @pulsechannel.posts.any? %>
-    <div id="posts" class="cards">
-      <%= render partial: 'posts/post', collection: @pulsechannel.posts%>
+<% elsif @pulsechannel.channeltype == "public"%>
+
+  <h1 id="channelHeader"><%= @pulsechannel.event %></h1>
+  <div class="fixed-action-btn horizontal">
+    <a class="btn-floating btn-large red" id="linktobottom">
+      <i class="large material-icons">system_update_alt</i>
+    </a>
+  </div>
+  <div id="pulsechannel-info">
+    <div class="row col-md-4">
+      <% if @adm_channels.user_id == @current_user.id  %>
+      <a class="waves-effect waves-light btn" id="editchannel">Edit channel</a>
+      <a class="waves-effect waves-light btn" id="editadm">Adm rights</a>
+      <% end %>
+      <div id="pulsechannel-edit" style="display:none">
+        <%= render partial: 'pulsechannel_edit_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
+      </div>
+      <div id="current-channel">
+        <h3>About</h3>
+        <p><%= @pulsechannel.detail%></p>
+      </div>
+      <div id="adm-edit" style="display:none">
+        <%= render partial: 'adm_edit_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
+      </div>
     </div>
-  <%else%>
-    <div class="panel-body hidden" id="posts">
+    <div class="row col-md-8 col-md-offset-5" id="channel_map">
+      <div id="map"></div>
     </div>
-  <%end%>
-</div>
+  </div>
+  <div>
+    <% if @pulsechannel.posts.any? %>
+      <div id="posts" class="cards">
+        <%= render partial: 'posts/post', collection: @pulsechannel.posts%>
+      </div>
+    <%else%>
+      <div class="panel-body hidden" id="posts">
+      </div>
+    <%end%>
+  </div>
 
-<br>
-<%= render partial: 'posts/post_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
-<hr>
+  <br>
+  <%= render partial: 'posts/post_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
+  <hr>
 
+<% else %>
+  <div class="card blue-grey darken-1" id="oopsprivate">
+    <div class="card-content white-text">
+      <span class="card-title">Oops!</span>
+      <p>Unfortunately this channel is private!</p>
+    </div>
+  </div>
+<% end %>
 <script>
   var current_room_id = <%= @pulsechannel.id.to_i %>
   var current_username = '<%= current_user.username %>'

@@ -1,0 +1,9 @@
+<%= form_for :pulsechannel, url: pulsechannel_path(@pulsechannel), method: :patch do |f| %>
+  <p>Name:</p>
+  <%= f.text_field :event, class: "form-control"%>
+  <p>Details:</p>
+  <%= f.text_area :detail, class: "form-control"%>
+  <p>Add location (optional):</p>
+  <input type="text" id="pac-input" class="form-control">
+  <button id="addLocation">Add location</button>
+<% end %>
