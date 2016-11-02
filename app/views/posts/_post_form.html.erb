@@ -18,7 +18,6 @@
         var FR= new FileReader();
         FR.onload = function(e) {
           savedImage = e.target.result;
-          console.log(savedImage)
           EL("test").src = e.target.result;
           EL("b64").value = e.target.result;
         };

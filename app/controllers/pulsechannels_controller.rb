@@ -60,6 +60,9 @@ class PulsechannelsController < ApplicationController
     @adm_pulsechannel_id = @pulsechannel.id
     @channels = @pulsechannels
     @rating = Rating.new
+    @ratings = @pulsechannel.ratings
+    gon.userRating = Rating.where(:user_id => @current_user.id, :pulsechannel_id => @pulsechannel.id)
+    @userRating = Rating.where(:user_id => @current_user.id, :pulsechannel_id => @pulsechannel.id)
   end
 
   def destroy

@@ -5,6 +5,7 @@ $(document).on('turbolinks:load', function () {
 var previous_room_id
 
 function connectToChannel () {
+  console.log("now in post.js")
   if (typeof current_room_id !== 'undefined' && typeof App.posts == 'undefined' ||
       typeof current_room_id !== 'undefined' && current_room_id !== previous_room_id){
     previous_room_id = current_room_id
@@ -13,7 +14,11 @@ function connectToChannel () {
         console.log('ActionCable posts data recieved on client:', data)
         var randomPicker = Math.floor(Math.floor(Math.random() * (cardColors.length)))
         $('#posts').removeClass('hidden')
-        console.log(data.imageUrl)
+        console.log("now in app.post thing")
+        $('[data-textarea="post"]').val(' ')
+        $("#test").removeAttr("src")
+        document.getElementById("inp").value = ""
+        document.getElementById("b64").value = ""
         if(data.image == null ){
           $('#posts').append('<div class="card card-panel waves-effect '+cardColors[randomPicker]+'"> <p> <b>' + data.user + ': </b>' + data.message + '</p><hr id="timeBorder"> <p id="postTime">'+ data.created_at + '</p></div>')
         }else {

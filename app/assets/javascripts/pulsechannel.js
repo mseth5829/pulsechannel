@@ -29,10 +29,15 @@ function submitNewPost () {
       // can send post to actioncable, as well as triggering from the model creation
       $('[data-send="post"]').click()
       $('[data-textarea="post"]').val(' ')
+      $("#test").removeAttr("src")
+      document.getElementById("inp").value = ""
+      document.getElementById("b64").value = ""
       return false
     }
   })
 }
+
+
 
 
 //Randomize card colors
@@ -58,7 +63,6 @@ function scrolltobottom(){
 var loco = "hidden"
 function showEditForm(){
   $('#editchannel').click(function(){
-    console.log("WOkring butot")
     if(loco == "hidden"){
       $('#pulsechannel-edit').slideDown( "slow");
       $('#current-channel').slideUp();

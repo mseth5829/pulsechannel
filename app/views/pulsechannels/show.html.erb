@@ -17,9 +17,23 @@
       </div>
       <div id="current-channel">
 
+        <div id="set_rating" style="display:none">
+          <div id="rateYo"></div>
+          <input id="userRating" style= "display:none">
+
+          <a id="showRating" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">star</i></a>
+          <button id="submitrating" class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+
+        <div id="get_rating">
+          <div id="rateCurrent"></div>
+          <a id="showSetRating" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">add</i></a>
+        </div>
         <h3>About</h3>
         <p><%= @pulsechannel.detail%></p>
-        <p><%= @pulsechannel.event_time%></p>
+        <p><%= @eventTime %></p>
       </div>
       <div id="adm-edit" style="display:none">
         <%= render partial: 'adm_edit_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
@@ -65,13 +79,7 @@
 
         <div id="set_rating" style="display:none">
           <div id="rateYo"></div>
-          <%= form_for :rating, style: "display:none", url: ratings_path do |f| %>
-            <%= f.number_field :rating, id: "userRating", step: :any, style: "display:none" %>
-            <%= f.hidden_field :pulsechannel_id, value: @pulsechannel.id %>
-            <%= f.hidden_field :user_id, value: @current_user.id %>
-            <%= f.submit "send", class: "btn btn-primary", style: "display:none", data: {send: "rating"}%>
-          <% end %>
-
+          <input id="userRating" style= "display:none">
 
           <a id="showRating" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">star</i></a>
           <button id="submitrating" class="btn waves-effect waves-light" type="submit" name="action">Submit
@@ -120,7 +128,8 @@
 <% end %>
 
 <div id="data_coords" data-coords-data="<%= @current_location_coordinates.to_json %>">
-
+<div id="data_ratings" data-rating-data="<%= @ratings.to_json %>">
+<div id="data_userRatings" data-userRating-data="<%= @userRatings.to_json %>">
 
 
 <script>
@@ -128,20 +137,33 @@
   var current_room_id = <%= @pulsechannel.id.to_i %>
   var current_username = '<%= current_user.username %>'
   var current_slug = '<%= @current_slug %>'
+  var ratingsAll = $('#data_ratings').data('rating-data')
+  var ratingsTotal = 0
+  if(gon.userRating[0] != undefined){
+    var userRating = gon.userRating[0].rating
+  }
+  for(i=0;i<ratingsAll.length;i++){
+    ratingsTotal += parseFloat(ratingsAll[i].rating)
+  }
+  var avgRating = ratingsTotal/ratingsAll.length
+
   gon.inChannel = "true"
 
   $(function () {
     function EL(id) { return document.getElementById(id); }
+    $("#rateYo").rateYo({
+      rating: parseFloat(userRating) || 0
+    })
 
     $("#rateYo").rateYo()
       .on("rateyo.change", function (e, data) {
-        var rating = data.rating;
-        starWidth: "10px";
+        var rating = data.rating
+        starWidth: "10px"
         EL("userRating").value = rating
       });
 
     $("#rateCurrent").rateYo({
-      rating: 3.2,
+      rating: avgRating || 0,
       readOnly: true
     });
 
@@ -155,11 +177,30 @@
         $('#get_rating').slideDown( "slow");
         $('#set_rating').slideUp();
     })
-
+  // Do an ajax request instead
     $('#submitrating').click(function () {
-      $('[data-send="rating"]').click()
-      $('#showRating').click()
-      return false
+      var value = parseFloat(EL("userRating").value)
+      var userId = <%=@current_user.id.to_i %>
+      if(userRating == undefined){
+        $.ajax({
+         type: "POST",
+         url: "/ratings",
+         data: { rating: {pulsechannel_id: current_room_id, user_id: userId, rating: value}},
+         error: function(e) {
+            console.log(e);
+          }
+        })
+      }else {
+        $.ajax({
+         type: "PUT",
+         url: "/ratings/"+gon.userRating[0].id,
+         data: { rating: {pulsechannel_id: current_room_id, user_id: userId, rating: value}},
+         error: function(e) {
+            console.log(e);
+          }
+        })
+      }
+
     })
 
   });
