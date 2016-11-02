@@ -2,12 +2,30 @@
   <%= f.label :your_post%>:
   <%= f.text_area :message, class: "form-control", data: {textarea: "post"}, id: "trythis"%>
 
-  <%= f.file_field :image %>
+  <input id="inp" type='file'>
+  <%= f.text_field :image, id: "b64", style: "display:none" %>
 
+  <img id="test">
   <%= f.hidden_field :pulsechannel_id, value: pulsechannel.id %>
   <%= f.submit "send", id: "imagePosted", class: "btn btn-primary", data: {send: "post"}%>
 <%end%>
 
 <script>
+  $(document).ready(function() {
+    function EL(id) { return document.getElementById(id); } // Get el by ID helper function
+    function readFile() {
+      if (this.files && this.files[0]) {
+        var FR= new FileReader();
+        FR.onload = function(e) {
+          savedImage = e.target.result;
+          console.log(savedImage)
+          EL("test").src = e.target.result;
+          EL("b64").value = e.target.result;
+        };
+        FR.readAsDataURL( this.files[0] );
+      }
+    }
+    EL("inp").addEventListener("change", readFile, false);
+  })
 
 </script>

@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'rating/create'
+
+  get 'rating/update'
+
   get 'admrights/create'
 
   get 'admrights/new'
@@ -25,7 +29,7 @@ Rails.application.routes.draw do
   get 'users/:id', to: "users#show", as: "profile"
 
   resources :pulsechannels, param: :slug
-  resources :posts, :admrights
+  resources :posts, :admrights, :ratings
 
   # we need to mount action cable
   mount ActionCable.server => '/cable'

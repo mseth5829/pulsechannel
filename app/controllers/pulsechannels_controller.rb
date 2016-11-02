@@ -59,6 +59,7 @@ class PulsechannelsController < ApplicationController
     @admright = Admright.new
     @adm_pulsechannel_id = @pulsechannel.id
     @channels = @pulsechannels
+    @rating = Rating.new
   end
 
   def destroy
