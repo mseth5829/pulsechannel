@@ -1,4 +1,4 @@
-<%=form_for post, remote: true, authenticity_token: true do |f|%>
+<%=form_for post, remote: true, multipart: true, authenticity_token: true do |f|%>
   <%= f.label :your_post%>:
   <%= f.text_area :message, class: "form-control", data: {textarea: "post"}, id: "trythis"%>
 
@@ -7,3 +7,7 @@
   <%= f.hidden_field :pulsechannel_id, value: pulsechannel.id %>
   <%= f.submit "send", id: "imagePosted", class: "btn btn-primary", data: {send: "post"}%>
 <%end%>
+
+<script>
+
+</script>

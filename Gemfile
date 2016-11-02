@@ -31,9 +31,15 @@ gem "mini_magick"
 
 gem 'cloudinary'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-datetimepicker'
+end
+
 gem 'rails_12factor', group: :production
 
 gem 'gon'
+
+gem 'remotipart', '~> 1.2'
 
 
 # Use Capistrano for deployment

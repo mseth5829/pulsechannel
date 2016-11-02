@@ -4,4 +4,7 @@ $(document).ready(function(){
     $('#create-channel-dropdown').slideDown( "slow");
     $('#add-location-dropdown').slideDown( "slow");
   })
+
+  //Add datetimepicker
+  $('#eventTimePicker').datetimepicker()
 })

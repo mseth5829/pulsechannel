@@ -1,4 +1,3 @@
-$(document).on('turbolinks:load', function () {
 
 var current_event_address
 // Map functionality
@@ -10,19 +9,18 @@ function initMap() {
 
   map.setOptions({styles: styles['night']});
 
-
   if ("true" == gon.inChannel){
     //Create marker for current location for event if it exists
     var eventPos = {
-      lat: parseFloat(gon.current_location_coordinates[0]),
-      lng: parseFloat(gon.current_location_coordinates[1])
+      lat: parseFloat(current_location_coordinates[0]),
+      lng: parseFloat(current_location_coordinates[1])
     }
 
     var eventMarker
     eventMarker = new google.maps.Marker({
         position: eventPos,
         map: map,
-        title: gon.current_slug,
+        title: current_slug,
         icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
     });
 
@@ -111,13 +109,10 @@ function initMap() {
       map.setZoom(12)
 
       var markers = [];
-      var channels = gon.channels
-
       if (undefined == gon.inChannel) {
-        for(i=0;i<channels.length;i++){
-          var locDetails = [channels[i].event, channels[i].locationLatitude,channels[i].locationLongitude]
+        for(i=0;i<channelsAll.length;i++){
+          var locDetails = [channelsAll[i].event, channelsAll[i].locationLatitude,channelsAll[i].locationLongitude,channelsAll[i].slug]
           markers.push(locDetails)
-          console.log(markers)
         }
       }
 
@@ -154,6 +149,7 @@ function initMap() {
               position: position,
               map: map,
               title: markers[i][0],
+              slug: markers[i][3],
               icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
           });
           google.maps.event.addListener(marker, 'click', (function(marker) {
@@ -161,7 +157,7 @@ function initMap() {
               geocoder.geocode({'location': marker.position}, function(results) {
                   var area = results[1].address_components[0].long_name
                   var address= results[0].formatted_address
-                  infoWindow.setContent('<div><strong>' + marker.title + '</strong><br>' +
+                  infoWindow.setContent('<div><a href="pulsechannels/'+ marker.slug +' "><strong>' + marker.title + '</strong></a><br>' +
                     address + '</div>');
                   infoWindow.open(map, marker)
                 });
@@ -189,7 +185,7 @@ $(document).ready(function() {
   $("#addLocation").click(function(){
     $.ajax({
      type: "PUT",
-     url: "/pulsechannels/"+gon.current_slug,
+     url: "/pulsechannels/"+current_slug,
      data: { pulsechannel: {locationLongitude: newLocLongitude, locationLatitude: newLocLatitude} },
      error: function(e) {
         console.log(e);
@@ -201,7 +197,7 @@ $(document).ready(function() {
    if (event.keyCode == 13) {
      $.ajax({
       type: "PUT",
-      url: "/pulsechannels/"+gon.current_slug,
+      url: "/pulsechannels/"+current_slug,
       data: { pulsechannel: {locationLongitude: newLocLongitude, locationLatitude: newLocLatitude} },
       error: function(e) {
          console.log(e);
@@ -306,6 +302,3 @@ var styles = {
 $('#editchannel').click(function(){
  initMap()
 });
-
-
-})

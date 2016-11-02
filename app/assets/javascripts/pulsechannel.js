@@ -34,6 +34,14 @@ function submitNewPost () {
   })
 }
 
+// $(document).ready(function() {
+//   $('#imagePosted').click(function (event) {
+//     console.log("Keydown to submit post via click: ")
+//     console.log(App.posts)
+//     event.preventDefault()
+//   })
+// })
+
 
 //Randomize card colors
 function colorCards(){

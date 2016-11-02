@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161101102208) do
+ActiveRecord::Schema.define(version: 20161102022701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,17 @@ ActiveRecord::Schema.define(version: 20161101102208) do
     t.decimal  "locationLatitude"
     t.string   "detail"
     t.string   "channeltype"
+    t.datetime "event_time"
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.decimal  "rating",          precision: 10, scale: 2
+    t.integer  "user_id"
+    t.integer  "pulsechannel_id"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.index ["pulsechannel_id"], name: "index_ratings_on_pulsechannel_id", using: :btree
+    t.index ["user_id"], name: "index_ratings_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|

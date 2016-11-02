@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require jquery.remotipart
+//= require datetimepicker
 //= require_tree .
 
 var refresh

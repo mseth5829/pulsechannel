@@ -5,12 +5,14 @@
       <%= f.text_field :event, class: "form-control"%>
     </div>
     <br>
+
   <div id="create-channel-dropdown" style="display:none">
       <p>Details:</p>
       <%= f.text_area :detail, class: "form-control"%>
       <p>Channel type:</p>
       <%= f.select :channeltype, [['Public','public'],['Private','private']] %>
-    <%= f.submit %>
+      <%= f.text_field :event_time, id: "eventTimePicker", value: @currentTime %>
+      <%= f.submit %>
   </div>
   <% end %>
 

@@ -16,8 +16,10 @@
         <%= render partial: 'pulsechannel_edit_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
       </div>
       <div id="current-channel">
+
         <h3>About</h3>
         <p><%= @pulsechannel.detail%></p>
+        <p><%= @pulsechannel.event_time%></p>
       </div>
       <div id="adm-edit" style="display:none">
         <%= render partial: 'adm_edit_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
@@ -60,8 +62,17 @@
         <%= render partial: 'pulsechannel_edit_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
       </div>
       <div id="current-channel">
+        <div id="set_rating" style="display:none">
+          <div id="rateYo"></div><p id="rating"></p>
+          <button id="showRating">+</button>
+        </div>
+        <div id="get_rating">
+          <div id="rateCurrent"></div>
+          <button id="showSetRating">-</button>
+        </div>
         <h3>About</h3>
         <p><%= @pulsechannel.detail%></p>
+        <p><%= @eventTime %></p>
       </div>
       <div id="adm-edit" style="display:none">
         <%= render partial: 'adm_edit_form', locals: {post: @post, pulsechannel: @pulsechannel}%>
@@ -94,8 +105,38 @@
     </div>
   </div>
 <% end %>
+
+<div id="data_coords" data-coords-data="<%= @current_location_coordinates.to_json %>">
+
 <script>
+  var current_location_coordinates = $('#data_coords').data('coords-data')
   var current_room_id = <%= @pulsechannel.id.to_i %>
   var current_username = '<%= current_user.username %>'
+  var current_slug = '<%= @current_slug %>'
   gon.inChannel = "true"
+
+  $(function () {
+    $("#rateYo").rateYo()
+      .on("rateyo.change", function (e, data) {
+        var rating = data.rating;
+        starWidth: "10px";
+        $(this).next().text(rating);
+      });
+
+    $("#rateCurrent").rateYo({
+      rating: 3.2,
+      readOnly: true
+    });
+
+    $('#showSetRating').click(function(){
+      console.log("Show edit clicked")
+      $('#set_rating').slideDown( "slow");
+      $('#get_rating').slideUp();
+    })
+
+    $('#showRating').click(function(){
+        $('#get_rating').slideDown( "slow");
+        $('#set_rating').slideUp();
+    })
+  });
 </script>

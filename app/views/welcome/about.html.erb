@@ -5,10 +5,21 @@
 <%= render partial: 'pulsechannel_form', locals: {pulsechannel: @pulsechannel, admright: @admright} %>
 <div id="map"></div>
 
+
+<div id="data_channels" data-channel-data="<%= @channels.to_json %>">
+
 <script>
   gon.inChannel = undefined
+  var channelsAll = $('#data_channels').data('channel-data')
+
   $('#create-channel-form').click(function(){
     $('#create-channel-dropdown').slideDown( "slow");
     $('#add-location-dropdown').slideDown( "slow");
+  })
+
+  $('#eventTimePicker').datetimepicker()
+
+  $('.new_pulsechannel').submit( function(){
+    var eventStartTime = $('#eventTimePicker').val()
   })
 </script>

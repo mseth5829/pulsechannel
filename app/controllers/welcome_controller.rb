@@ -6,7 +6,8 @@ class WelcomeController < ApplicationController
     @admright = Admright.new
     @pulsechannels = Pulsechannel.all
     gon.posts= Post.all
-    gon.channels = @pulsechannels
+    @channels = @pulsechannels
+    @currentTime = Time.now.strftime("%Y/%m/%d %H:%M")
   end
 
 end
