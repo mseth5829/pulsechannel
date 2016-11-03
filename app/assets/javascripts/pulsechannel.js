@@ -8,6 +8,7 @@ $(document).on('turbolinks:load', function () {
   showEditForm()
   showAdmForm()
   generateSearch()
+  addAdm()
 
   var grid = new Minigrid({
     container: '.cards',
@@ -100,17 +101,17 @@ function generateSearch() {
 }
 
 //Make post request for new adm users
-$(document).ready(function() {
+function addAdm() {
   $("#add_adm").click(function(){
-    var newAdm = $('.searchUsers').val()
+    var newAdm = $('#searchUsers').val()
     $.ajax({
      type: "POST",
      url: "/admrights",
-     data: {newAdm: newAdm, current_slug: gon.current_slug},
+     data: {newAdm: newAdm, current_slug: current_slug},
      error: function(e) {
         console.log(e);
       }
     })
     $("#addingAdm").append("<p>"+newAdm+"</p>")
  })
-})
+}

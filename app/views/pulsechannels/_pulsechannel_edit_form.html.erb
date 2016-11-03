@@ -3,8 +3,8 @@
   <%= f.text_field :event, class: "form-control"%>
   <p>Details:</p>
   <%= f.text_area :detail, class: "form-control"%>
-  <p>Add location (optional):</p>
+  <p id="add_location_label">Add location (optional):</p>
   <input type="text" id="pac-input" class="form-control">
   <button id="addLocation">Make changes</button>
+  <%= link_to "Close channel", @pulsechannel, id: "deleteChannel", method: :delete, data: { confirm: "Are you sure?" } %>
 <% end %>
-<%= link_to "Close channel", @pulsechannel, method: :delete, data: { confirm: "Are you sure?" } %>

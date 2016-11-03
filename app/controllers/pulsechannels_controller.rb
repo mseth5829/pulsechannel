@@ -23,12 +23,12 @@ class PulsechannelsController < ApplicationController
 
     if @pulsechannel.save
       respond_to do |format|
-        format.html { redirect_to @pulsechannel }
-        format.js
         @admright = Admright.new
         @admright.pulsechannel_id = @pulsechannel.id
         @admright.user_id = @current_user.id
         @admright.save
+        format.html { redirect_to @pulsechannel }
+        format.js { redirect_to @pulsechannel }
       end
     else
       respond_to do |format|
@@ -74,6 +74,6 @@ class PulsechannelsController < ApplicationController
   private
 
     def channel_params
-      params.require(:pulsechannel).permit(:event, :detail, :channeltype, :locationLatitude, :locationLongitude, :event_time)
+      params.require(:pulsechannel).permit(:event, :detail, :channeltype, :locationLatitude, :locationLongitude, :event_time, :channelImage)
     end
 end

@@ -1,20 +1,21 @@
-<h1 id="mainHeader" class="mainText">Pulse</h1>
-<%if current_user%>
-  <p class="mainText">Welcome back, <%= current_user.username%></p>
-<%end%>
-<%= render partial: 'pulsechannel_form', locals: {pulsechannel: @pulsechannel, admright: @admright} %>
-<div id="map"></div>
+  <div class="container" id="formOverlay">
+    <%= render partial: 'pulsechannel_form', locals: {pulsechannel: @pulsechannel, admright: @admright} %>
+    <%= render partial: 'filter_form', locals: {pulsechannel: @pulsechannel, admright: @admright} %>
+  </div>
 
+  <div id="map" class="mainMap"></div>
 
-<div id="data_channels" data-channel-data="<%= @channels.to_json %>">
+  <div id="data_channels" data-channel-data="<%= @channels.to_json %>"></div>
 
 <script>
   gon.inChannel = undefined
   var channelsAll = $('#data_channels').data('channel-data')
-
   $('#create-channel-form').click(function(){
     $('#create-channel-dropdown').slideDown( "slow");
-    $('#add-location-dropdown').slideDown( "slow");
+  })
+
+  $('#channelFilter').click(function(){
+    $('#filter-dropdown').slideDown( "slow");
   })
 
   $('#eventTimePicker').datetimepicker()
@@ -22,4 +23,10 @@
   $('.new_pulsechannel').submit( function(){
     var eventStartTime = $('#eventTimePicker').val()
   })
+
+  $('select').material_select()
+
+  $(document).ready(function(){
+    $(".dropdown-button").dropdown();
+  });
 </script>

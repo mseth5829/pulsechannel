@@ -1,0 +1,14 @@
+<div class= "pulsechannel-form" id="filter-dropdown" style="display:none">
+  <span class="card-title grey-text text-darken-4"><i class="material-icons right hideFilterForm">close</i></span>
+  <p>Filter events by date:</p>
+  <input type="date" class="datepicker" id="datepicker">
+
+</div>
+
+<script>
+  $(document).ready(function() {
+    $(".hideFilterForm").click(function() {
+      $('#filter-dropdown').slideUp( "slow");
+    })
+  })
+</script>

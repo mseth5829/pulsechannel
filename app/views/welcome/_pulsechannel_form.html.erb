@@ -1,19 +1,69 @@
-<div class="pulsechannel-form">
+<a class="btn-floating btn-medium waves-effect waves-light red" id="create-channel-form"><i class="material-icons">add</i></a>
+<a class="btn-floating btn-medium waves-effect waves-light red" id="channelFilter"><i class="material-icons">search</i></a>
+<div class= "pulsechannel-form" id="create-channel-dropdown" style="display:none">
   <%= form_for pulsechannel, remote: true do |f| %>
-    <div class="input-group" id="create-channel-form">
-      <span class="input-group-addon">Create a channel:</span>
-      <%= f.text_field :event, class: "form-control"%>
-    </div>
-    <br>
+  <div id="formWrapper">
+    <span class="card-title grey-text text-darken-4"><i class="material-icons right hideChannelForm">close</i></span>
+    <div class="row">
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <%= f.text_field :event, class: "form-control"%>
+              <label>Channel Name</label>
+            </div>
+          </div>
 
-  <div id="create-channel-dropdown" style="display:none">
-      <p>Details:</p>
-      <%= f.text_area :detail, class: "form-control"%>
-      <p>Channel type:</p>
-      <%= f.select :channeltype, [['Public','public'],['Private','private']] %>
-      <%= f.text_field :event_time, id: "eventTimePicker", value: @currentTime %>
-      <%= f.submit %>
+          <div class="row">
+            <div class="input-field col s6">
+              <%= f.select :channeltype, [['Public','public'],['Private','private']] %>
+              <label>Channel type</label>
+            </div>
+            <div class="input-field col s6">
+              <%= f.text_field :event_time, id: "eventTimePicker", value: @currentTime %>
+              <label>Set time</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <%= f.text_area :detail, class: "materialize-textarea", id: "textarea1"%>
+              <label for="textarea1">Details</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <label id="addChannelArt">Add channel art</label>
+              <input id="inp2" type='file'>
+              <%= f.text_field :channelImage, id: "c64", style: "display:none" %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    <%= f.submit class: "waves-effect waves-light btn centerCreate"%>
   </div>
   <% end %>
-
 </div>
+
+<script>
+  $(document).ready(function() {
+    function EL(id) { return document.getElementById(id); } // Get el by ID helper function
+    function readFile() {
+      if (this.files && this.files[0]) {
+        var FR= new FileReader();
+        FR.onload = function(e) {
+          savedImage = e.target.result;
+          EL("c64").value = e.target.result;
+        };
+        FR.readAsDataURL( this.files[0] );
+      }
+    }
+    EL("inp2").addEventListener("change", readFile, false);
+
+    $(".hideChannelForm").click(function() {
+      $('#create-channel-dropdown').slideUp( "slow");
+    })
+  })
+
+</script>

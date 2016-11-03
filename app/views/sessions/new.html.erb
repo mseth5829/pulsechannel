@@ -1,20 +1,22 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
-
-    <h2 id="log-in-title">Log in</h2>
-    <div class="auth-form well">
-    <%= form_for(User.new, url: login_path) do |f| %>
-
-      <%=f.label :username%>
-      <div class="input-group">
-        <span class="input-group-addon">@</span>
-          <%= f.text_field :username, class: "form-control"%>
+    <div class="auth-form well" id="logIn">
+      <div class="row">
+        <%= form_for(User.new, url: login_path) do |f| %>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">account_circle</i>
+              <%= f.text_field :username, id: "icon_prefix"%>
+              <label for="icon_prefix">Username</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class= "col s12">
+              <%= f.submit "log in", class: "btn col s12" %>
+            </div>
+          </div>
+        <% end %>
       </div>
-
-      <div class="actions">
-        <%= f.submit "log in", class: "btn btn-primary" %>
-      </div>
-    <% end %>
     </div>
     <%= render partial: 'layouts/flash_errors'%>
   </div>

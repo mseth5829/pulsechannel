@@ -2,7 +2,7 @@
   <p><strong><%=post.user.username%>:</strong><br>
     <%=post.message%>
   </p>
-  <% if post.image %>
+  <% if post.image != "" %>
     <img class="img" src="<%=post.image%>">
   <% end %>
   <hr id="timeBorder">

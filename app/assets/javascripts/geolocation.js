@@ -63,11 +63,9 @@ function initMap() {
       // For each place, get the icon, name and location.
       var bounds = new google.maps.LatLngBounds();
       places.forEach(function(place) {
-        console.log(place.geometry)
         newLocLatitude = place.geometry.location.lat()
         newLocLongitude = place.geometry.location.lng()
         if (!place.geometry) {
-          console.log("Returned place contains no geometry");
           return;
         }
         var icon = {
@@ -109,11 +107,18 @@ function initMap() {
       map.setZoom(12)
 
       var markers = [];
+      var privateMarkers = [];
       if (undefined == gon.inChannel) {
         for(i=0;i<channelsAll.length;i++){
-          var locDetails = [channelsAll[i].event, channelsAll[i].locationLatitude,channelsAll[i].locationLongitude,channelsAll[i].slug]
+          var locDetails = [channelsAll[i].event, channelsAll[i].locationLatitude,channelsAll[i].locationLongitude,channelsAll[i].slug,channelsAll[i].event_time]
           markers.push(locDetails)
         }
+        if(gon.privateChannelsAll){
+          for(i=0;i<gon.privateChannelsAll.length;i++){
+            var locDetails = [gon.privateChannelsAll[i].event, gon.privateChannelsAll[i].locationLatitude,gon.privateChannelsAll[i].locationLongitude,gon.privateChannelsAll[i].slug,gon.privateChannelsAll[i].event_time]
+            privateMarkers.push(locDetails)
+          }
+        }  
       }
 
       // Display multiple markers on a map
@@ -140,6 +145,8 @@ function initMap() {
           })
         })
       )
+      var markersArray= []
+      var privateMarkersArray= []
 
       if (undefined == gon.inChannel) {
         // Loop through array of markers & place each one on the map
@@ -150,20 +157,139 @@ function initMap() {
               map: map,
               title: markers[i][0],
               slug: markers[i][3],
+              eventTime: markers[i][4],
               icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
           });
+
+          markersArray.push(marker)
+
           google.maps.event.addListener(marker, 'click', (function(marker) {
             return function() {
               geocoder.geocode({'location': marker.position}, function(results) {
                   var area = results[1].address_components[0].long_name
                   var address= results[0].formatted_address
                   infoWindow.setContent('<div><a href="pulsechannels/'+ marker.slug +' "><strong>' + marker.title + '</strong></a><br>' +
-                    address + '</div>');
+                    address + '<br>'+new Date(marker.eventTime).toLocaleString()+'</div>');
                   infoWindow.open(map, marker)
                 });
             }
           })(marker, i));
         }
+
+        function clearOverlays() {
+          for (var i = 0; i < markersArray.length; i++ ) {
+            markersArray[i].setMap(null);
+          }
+          markersArray.length = 0;
+        }
+
+        $('.datepicker').change(function(){
+          var datepicked = new Date($('.datepicker').val());
+          datepicked.setHours(0,0,0,0)
+          clearOverlays()
+          datepicked = String(datepicked)
+          for( i = 0; i < markers.length; i++ ) {
+            var eventDate = new Date(markers[i][4])
+            eventDate.setHours(0,0,0,0)
+            eventDate = String(eventDate)
+            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+            if (datepicked == eventDate){
+              marker = new google.maps.Marker({
+                  position: position,
+                  map: map,
+                  title: markers[i][0],
+                  slug: markers[i][3],
+                  eventTime: markers[i][4],
+                  icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+              });
+
+              markersArray.push(marker)
+              google.maps.event.addListener(marker, 'click', (function(marker) {
+                return function() {
+                  geocoder.geocode({'location': marker.position}, function(results) {
+                      var area = results[1].address_components[0].long_name
+                      var address= results[0].formatted_address
+                      infoWindow.setContent('<div><a href="pulsechannels/'+ marker.slug +' "><strong>' + marker.title + '</strong></a><br>' +
+                        address + '<br>'+new Date(marker.eventTime).toLocaleString()+'</div>');
+                      infoWindow.open(map, marker)
+                    });
+                }
+              })(marker, i))
+            }
+          }
+        })
+
+        function clearPrivateOverlays() {
+          for (var i = 0; i < privateMarkersArray.length; i++ ) {
+            privateMarkersArray[i].setMap(null);
+          }
+          privateMarkersArray.length = 0;
+        }
+
+        for( i = 0; i < privateMarkers.length; i++ ) {
+          var position = new google.maps.LatLng(privateMarkers[i][1], privateMarkers[i][2]);
+          marker = new google.maps.Marker({
+              position: position,
+              map: map,
+              title: privateMarkers[i][0],
+              slug: privateMarkers[i][3],
+              eventTime: privateMarkers[i][4],
+              icon: "http://maps.google.com/mapfiles/ms/icons/purple-dot.png"
+          });
+
+          privateMarkersArray.push(marker)
+
+          google.maps.event.addListener(marker, 'click', (function(marker) {
+            return function() {
+              geocoder.geocode({'location': marker.position}, function(results) {
+                  var area = results[1].address_components[0].long_name
+                  var address= results[0].formatted_address
+                  infoWindow.setContent('<div><a href="pulsechannels/'+ marker.slug +' "><strong>' + marker.title + '</strong></a><br>' +
+                    address + '<br>'+new Date(marker.eventTime).toLocaleString()+'</div>');
+                  infoWindow.open(map, marker)
+                });
+            }
+          })(marker, i));
+        }
+
+
+        $('.datepicker').change(function(){
+          var datepicked = new Date($('.datepicker').val());
+          datepicked.setHours(0,0,0,0)
+          clearPrivateOverlays()
+          datepicked = String(datepicked)
+          for( i = 0; i < privateMarkers.length; i++ ) {
+            var eventDate = new Date(privateMarkers[i][4])
+            eventDate.setHours(0,0,0,0)
+            eventDate = String(eventDate)
+            var position = new google.maps.LatLng(privateMarkers[i][1], privateMarkers[i][2]);
+            if (datepicked == eventDate){
+              marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: privateMarkers[i][0],
+                slug: privateMarkers[i][3],
+                eventTime: privateMarkers[i][4],
+                icon: "http://maps.google.com/mapfiles/ms/icons/purple-dot.png"
+              });
+              privateMarkersArray.push(marker)
+
+              google.maps.event.addListener(marker, 'click', (function(marker) {
+                return function() {
+                  geocoder.geocode({'location': marker.position}, function(results) {
+                      var area = results[1].address_components[0].long_name
+                      var address= results[0].formatted_address
+                      infoWindow.setContent('<div><a href="pulsechannels/'+ marker.slug +' "><strong>' + marker.title + '</strong></a><br>' +
+                        address + '<br>'+new Date(marker.eventTime).toLocaleString()+'</div>');
+                      infoWindow.open(map, marker)
+                    });
+                }
+              })(marker, i));
+            }
+          }
+        });
+
+
       }
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -188,7 +314,6 @@ $(document).ready(function() {
      url: "/pulsechannels/"+current_slug,
      data: { pulsechannel: {locationLongitude: newLocLongitude, locationLatitude: newLocLatitude} },
      error: function(e) {
-        console.log(e);
       }
     })
  })
@@ -200,7 +325,6 @@ $(document).ready(function() {
       url: "/pulsechannels/"+current_slug,
       data: { pulsechannel: {locationLongitude: newLocLongitude, locationLatitude: newLocLatitude} },
       error: function(e) {
-         console.log(e);
        }
      })
    }

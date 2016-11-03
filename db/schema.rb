@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102022701) do
+ActiveRecord::Schema.define(version: 20161103063937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20161102022701) do
 
   create_table "posts", force: :cascade do |t|
     t.string   "message"
-    t.string   "image"
+    t.text     "image"
     t.integer  "user_id"
     t.integer  "pulsechannel_id"
     t.datetime "created_at",      null: false
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20161102022701) do
     t.string   "detail"
     t.string   "channeltype"
     t.datetime "event_time"
+    t.string   "channelImage"
   end
 
   create_table "ratings", force: :cascade do |t|

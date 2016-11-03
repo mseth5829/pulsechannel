@@ -1,18 +1,151 @@
-<h1 class="europa mainText">Pulse Channels</h1>
+<div class="container">
+  <% if @pulsechannels.any? %>
+    <br>
+    <br>
+    <% @pulsechannels.each do |pulsechannel| %>
+      <%
+        adm_channels = Admright.where(pulsechannel_id: pulsechannel.id)
+        isAdm = false
+        adm_channels.each do |admChannel|
+          if admChannel.user_id == current_user.id
+            isAdm = true
+          end
+        end
+      %>
+      <% if pulsechannel.channeltype == "private" && isAdm == true %>
+        <div class="card-media">
+          <!-- media container -->
+          <div class="card-media-object-container">
+            <img class="img card-media-object" src="<%=pulsechannel.channelImage%>">
+            <!-- <div class="card-media-object" style="background-image: url(http://s9.postimg.org/y0sfm95gv/prince_f.jpg);"></div> -->
+          </div>
+          <!-- body container -->
+          <div class="card-media-body">
+            <div class="card-media-body-top">
+              <span class="subtle"><%= pulsechannel.event_time.strftime("%a %m-%d-%Y, %I:%M%p") %></span>
+              <div class="card-media-body-top-icons u-float-right">
+                <svg fill="#888888" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                </svg>
+                <svg fill="#888888" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                  <path d="M0 0h24v24H0z" fill="none"/>
+                </svg>
+              </div>
+            </div>
+            <span class="card-media-body-heading">
+              <strong><%= pulsechannel.event %></strong><br>
+              <% if pulsechannel.detail.length>65 %>
+                <%=truncate(pulsechannel.detail, :length => 65)%>
+              <% else %>
+                <span class="channelDeats"><%= pulsechannel.detail %></span>
+              <% end %>
+            </span>
+            <div class="card-media-body-supporting-bottom">
+              <span class="card-media-body-supporting-bottom-text subtle"><span class="tagPulse">Posts: <%= @posts.where(:pulsechannel => pulsechannel.id).length %></span></span>
+              <span class="card-media-body-supporting-bottom-text subtle"><span class="tagPulse mostRecent">Most recent post: <%= @posts.where(:pulsechannel => pulsechannel.id).order('created_at DESC').first.created_at.strftime("%^a %m-%d-%Y, %I:%M%p") if @posts.where(:pulsechannel => pulsechannel.id).order('created_at DESC').first.present?  %></span></span>
+              <span class="card-media-body-supporting-bottom-text subtle"><span class="tagPulse private">PRIVATE CHANNEL</span></span>
+              <span class="card-media-body-supporting-bottom-text subtle u-float-right cost"></span>
+            </div>
+            <div class="card-media-body-supporting-bottom card-media-body-supporting-bottom-reveal">
+              <%
+                ratingsTotal = 0
+                ratingsAll = pulsechannel.ratings
+                ratingsAll.each do |rating|
+                   ratingsTotal += rating.rating
+                end
+                if ratingsAll.length>0
+                  avgRating = ratingsTotal/ratingsAll.length
+                end
+              %>
+              <span class="card-media-body-supporting-bottom-text subtle"><i class="material-icons icon-blue">star</i><span class="channelSmallRatingIcon">Rating: <%=avgRating%></span></span>
+              <%= link_to "Go to channel", pulsechannel, class: "card-media-body-supporting-bottom-text card-media-link u-float-right" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    <div class="divider"></div>
+    <br>
+    <br>
+    <h5>All channels</h5>
+    <div class="divider"></div>
+      <% @pulsechannels.each do |pulsechannel| %>
+        <% if pulsechannel.channeltype == "public" %>
+          <div class="card-media">
+            <!-- media container -->
+            <div class="card-media-object-container">
+              <img class="img card-media-object" src="<%=pulsechannel.channelImage%>">
+            </div>
+            <!-- body container -->
+            <div class="card-media-body">
+              <div class="card-media-body-top">
+                <span class="subtle"><%= pulsechannel.event_time.strftime("%^a %m-%d-%Y, %I:%M%p") %></span>
+                <div class="card-media-body-top-icons u-float-right">
+                  <svg fill="#888888" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                  </svg>
+                  <svg fill="#888888" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                  </svg>
+                </div>
+              </div>
+              <span class="card-media-body-heading">
+                <strong><%= pulsechannel.event %></strong><br>
+                <% if pulsechannel.detail.length>65 %>
+                  <%=truncate(pulsechannel.detail, :length => 65)%>
+                <% else %>
+                  <span class="channelDeats"><%= pulsechannel.detail %></span>
+                <% end %>
+              </span>
+              <div class="card-media-body-supporting-bottom">
+                <span class="card-media-body-supporting-bottom-text subtle"><span class="tagPulse">Posts: <%= @posts.where(:pulsechannel => pulsechannel.id).length %></span></span>
+                <span class="card-media-body-supporting-bottom-text subtle"><span class="tagPulse mostRecent">Most recent post: <%= @posts.where(:pulsechannel => pulsechannel.id).order('created_at DESC').first.created_at.strftime("%a %m-%d-%Y, %I:%M%p") if @posts.where(:pulsechannel => pulsechannel.id).order('created_at DESC').first.present?  %></span></span>
 
-<div class="row col-md-8 col-md-offset-2">
-  <%= render partial: 'pulsechannel_form', locals: {pulsechannel: @pulsechannel} %>
-  <br>
-    <% if @pulsechannels.any? %>
-      <ul class="list-group" id="pulsechannel-index">
-        <% @pulsechannels.each do |pulsechannel| %>
-            <li class="list-group-item">
-              <span class="tagPulse">Posts: <%= @posts.where(:pulsechannel => pulsechannel.id).length %></span>
-              <td><%= link_to pulsechannel.event, pulsechannel %></td>
-            </li>
+                <span class="card-media-body-supporting-bottom-text subtle u-float-right cost"></span>
+              </div>
+              <div class="card-media-body-supporting-bottom card-media-body-supporting-bottom-reveal">
+                <%
+                  ratingsTotal = 0
+                  ratingsAll = pulsechannel.ratings
+                  ratingsAll.each do |rating|
+                     ratingsTotal += rating.rating
+                  end
+                  if ratingsAll.length>0
+                    avgRating = ratingsTotal/ratingsAll.length
+                  end
+                %>
+                <span class="card-media-body-supporting-bottom-text subtle"><i class="material-icons icon-blue">star</i><span class="channelSmallRatingIcon">Rating: <%=avgRating%></span></span>
+                <%= link_to "Go to channel", pulsechannel, class: "card-media-body-supporting-bottom-text card-media-link u-float-right" %>
+              </div>
+            </div>
+          </div>
         <% end %>
-      </ul>
-  <%else %>
-    <p>Be the first one to make a pulse channel!</p>
-  <% end %>
+      <% end %>
+    <% else %>
+      <p>Be the first one to make a pulse channel!</p>
+    <% end %>
 </div>
+
+<script>
+  var costs = [
+    "Free &ndash; $30",
+    "$100 &ndash; $200",
+    "$20 and above",
+    "Free",
+    "~$100",
+    "$10 &ndash; $30",
+    "Free &ndash; $25"
+  ]
+  $("document").ready(function(){
+    var events = document.getElementsByClassName('cost')
+    for(i=0;i<events.length;i++){
+      var randomCost = Math.floor(Math.floor(Math.random() * (costs.length)))
+      console.log(events[i])
+      events[i].innerHTML = costs[randomCost]
+    }
+  })
+</script>

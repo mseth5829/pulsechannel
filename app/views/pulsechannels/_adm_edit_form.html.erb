@@ -6,7 +6,7 @@
 <hr>
 
   <p><strong>Add an administrator:</strong><p>
-  <select class="searchUsers">
+  <select class="searchUsers" id="searchUsers">
     <% @users.each do |user| %>
       <option value="<%= user.username %>"><%= user.username %></option>
     <% end %>

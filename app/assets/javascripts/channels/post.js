@@ -19,7 +19,7 @@ function connectToChannel () {
         $("#test").removeAttr("src")
         document.getElementById("inp").value = ""
         document.getElementById("b64").value = ""
-        if(data.image == null ){
+        if(data.image == "" ){
           $('#posts').append('<div class="card card-panel waves-effect '+cardColors[randomPicker]+'"> <p> <b>' + data.user + ': </b>' + data.message + '</p><hr id="timeBorder"> <p id="postTime">'+ data.created_at + '</p></div>')
         }else {
           $('#posts').append('<div class="card card-panel '+cardColors[randomPicker]+'"> <p> <b>' + data.user + ': </b>' + data.message + '</p> <img class="img" src="'+ data.image +'"> <hr id="timeBorder"> <p id="postTime">'+ data.created_at + '</p></div>')
