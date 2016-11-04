@@ -34,7 +34,7 @@ gem 'rails_12factor', group: :production
 
 gem 'gon'
 
-gem 'remotipart', '~> 1.2'
+gem 'remotipart'
 
 
 # Use Capistrano for deployment
