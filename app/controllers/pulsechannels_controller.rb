@@ -66,7 +66,7 @@ class PulsechannelsController < ApplicationController
   end
 
   def destroy
-    Pulsechannel.find_by(slug: params[:slug]).delete
+    Pulsechannel.find_by(slug: params[:slug]).destroy
     redirect_to pulsechannels_path
   end
 
