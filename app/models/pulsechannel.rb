@@ -1,5 +1,5 @@
 class Pulsechannel < ApplicationRecord
-  has_many :posts, dependent: :destroy
+  has_many :posts, dependent: :delete
   has_many :users, through: :admrights
   has_many :admrights
   has_many :ratings
