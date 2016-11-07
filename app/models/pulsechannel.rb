@@ -1,8 +1,8 @@
 class Pulsechannel < ApplicationRecord
-  has_many :posts, dependent: :delete
+  has_many :posts, dependent: :destroy
   has_many :users, through: :admrights
-  has_many :admrights
-  has_many :ratings
+  has_many :admrights, dependent: :destroy
+  has_many :ratings, dependent: :destroy
   validates :event, presence: true, uniqueness: true, case_sensitive: false
   before_validation :sanitize, :slugify
 
